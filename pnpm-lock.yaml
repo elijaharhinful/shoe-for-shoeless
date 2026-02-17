@@ -57,6 +57,9 @@ importers:
       '@types/node':
         specifier: ^20
         version: 20.19.33
+      '@types/paypal__checkout-server-sdk':
+        specifier: ^1.0.8
+        version: 1.0.8
       '@types/react':
         specifier: ^19
         version: 19.2.14
@@ -569,6 +572,12 @@ packages:
 
   '@types/node@20.19.33':
     resolution: {integrity: sha512-Rs1bVAIdBs5gbTIKza/tgpMuG1k3U/UMJLWecIMxNdJFDMzcM5LOiLVRYh3PilWEYDIeUDv7bpiHPLPsbydGcw==}
+
+  '@types/paypal__checkout-server-sdk@1.0.8':
+    resolution: {integrity: sha512-PNmNBlcany7Dh42Qb5mkl+KqYfR39aVcalLm3FXHCozKtDyfLE1JAig7C2mANPdC3fmQhdvcs0n3ym6K10CLnw==}
+
+  '@types/paypal__paypalhttp@1.0.3':
+    resolution: {integrity: sha512-Zen2JyaCOPRkPFxXetopbYWsSpi3VlWWYBZKNEXruxp6vzh7f/an/IaeZ23tmd11rg56zYtmXS2e1PfllVRZtQ==}
 
   '@types/react-dom@19.2.3':
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
@@ -2658,6 +2667,14 @@ snapshots:
   '@types/node@20.19.33':
     dependencies:
       undici-types: 6.21.0
+
+  '@types/paypal__checkout-server-sdk@1.0.8':
+    dependencies:
+      '@types/paypal__paypalhttp': 1.0.3
+
+  '@types/paypal__paypalhttp@1.0.3':
+    dependencies:
+      '@types/node': 20.19.33
 
   '@types/react-dom@19.2.3(@types/react@19.2.14)':
     dependencies:
