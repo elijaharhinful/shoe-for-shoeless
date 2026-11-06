@@ -1,120 +1,36 @@
-# Shoe for Shoeless - Setup Guide
+# Shoe for the Shoeless
 
-## Quick Start
+Donation website for [shoefortheshoeless.org](https://shoefortheshoeless.org): durable, locally handmade shoes for school children in Ghana.
 
-### 1. Install Dependencies
+## Run it
+
 ```bash
 pnpm install
+cp .env.local.example .env.local   # then fill in MongoDB + Paystack keys
+pnpm dev                           # http://localhost:3000
 ```
 
-### 2. Configure Environment Variables
+## Edit content
 
-Copy `.env.local` and add your API keys:
+All copy, live counters (pairs, schools, cost per pair), donation presets, partners and contact details are in [`src/content/site.ts`](src/content/site.ts).
 
-```bash
-# MongoDB (choose one)
-MONGODB_URI=mongodb://localhost:27017/shoeforshoeless
-# OR
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/shoeforshoeless
+## Donations (Paystack)
 
-# Get API keys from payment providers
-PAYSTACK_PUBLIC_KEY=pk_test_xxx
-PAYSTACK_SECRET_KEY=sk_test_xxx
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_xxx
-STRIPE_SECRET_KEY=sk_test_xxx
-STRIPE_WEBHOOK_SECRET=whsec_xxx
-PAYPAL_CLIENT_ID=xxx
-PAYPAL_CLIENT_SECRET=xxx
-```
+1. Donor picks an amount in GHS and enters name + email on the home page.
+2. `POST /api/donations/create` saves a pending donation and opens Paystack checkout (card, Mobile Money, bank).
+3. Paystack returns the donor to `/thank-you`, which confirms the payment server-side.
+4. `POST /api/webhooks/paystack` also confirms it. Register that URL in the Paystack dashboard once the site is live.
 
-### 3. Run Development Server
-```bash
-pnpm run dev
-```
+Test card: `4084 0840 8408 4081`, any future expiry, CVV `408`, PIN `0000`, OTP `123456`.
 
-Visit http://localhost:3000
+## Going live checklist
 
-### 4. Test Donations
+- [ ] Real `MONGODB_URI` (Atlas) in production env
+- [ ] Switch to `sk_live_` / `pk_live_` Paystack keys
+- [ ] `NEXT_PUBLIC_BASE_URL=https://shoefortheshoeless.org`
+- [ ] Register the webhook URL in Paystack
+- [ ] Point the domain's DNS at the host (e.g. Vercel)
 
-Use test credentials:
-- **Stripe**: 4242 4242 4242 4242
-- **Paystack**: 4084 0840 8408 4081 (PIN: 0000, OTP: 123456)
-- **PayPal**: Use sandbox account
+## Design workflow
 
-## Payment Provider Setup
-
-### Paystack
-1. Sign up: https://paystack.com
-2. Dashboard → Settings → API Keys
-3. Copy test keys to `.env.local`
-
-### Stripe
-1. Sign up: https://stripe.com
-2. Dashboard → Developers → API keys
-3. Copy test keys to `.env.local`
-4. Create webhook: `https://yourdomain.com/api/webhooks/stripe`
-5. Add webhook secret to `.env.local`
-
-### PayPal
-1. Sign up: https://developer.paypal.com
-2. Create sandbox app
-3. Copy credentials to `.env.local`
-
-## MongoDB Setup
-
-### Option A: MongoDB Atlas (Recommended)
-1. Create account: https://www.mongodb.com/cloud/atlas
-2. Create free cluster
-3. Get connection string
-4. Update `MONGODB_URI`
-
-### Option B: Local MongoDB
-1. Install MongoDB
-2. Start service
-3. Use `mongodb://localhost:27017/shoeforshoeless`
-
-## Deployment
-
-### Vercel (Recommended)
-```bash
-pnpm add -g vercel
-vercel
-```
-
-Add environment variables in Vercel dashboard.
-
-### Production Checklist
-- [ ] Switch to production API keys
-- [ ] Update `NEXT_PUBLIC_BASE_URL`
-- [ ] Configure production MongoDB
-- [ ] Set up webhook endpoints
-- [ ] Test all payment methods
-- [ ] Enable SSL
-
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── api/          # API routes
-│   ├── layout.tsx    # Root layout
-│   └── page.tsx      # Homepage
-├── components/       # React components
-├── lib/
-│   ├── mongodb.ts    # Database connection
-│   └── payments/     # Payment handlers
-└── models/           # Database schemas
-```
-
-## Available Scripts
-
-```bash
-pnpm run dev      # Start development server
-pnpm run build    # Build for production
-pnpm run start    # Start production server
-pnpm run lint     # Run ESLint
-```
-
-## Support
-
-See [walkthrough.md](file:///C:/Users/Doxa/.gemini/antigravity/brain/ffbdcf81-29cc-4e6b-a6b1-aeda55d634df/walkthrough.md) for detailed documentation.
+See [`CLAUDE.md`](CLAUDE.md) for the design system and conventions. Screenshot tool: `node screenshot.mjs <url> <label> [--full|--mobile|--selector=".x"]`.

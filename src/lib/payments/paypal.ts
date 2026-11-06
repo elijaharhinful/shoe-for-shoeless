@@ -1,17 +1,13 @@
 // PayPal Payment Handler
-// @ts-ignore
 import paypal from '@paypal/checkout-server-sdk';
 
 const clientId = process.env.PAYPAL_CLIENT_ID!;
 const clientSecret = process.env.PAYPAL_CLIENT_SECRET!;
 
-let environment: any;
-
-if (process.env.PAYPAL_MODE === 'production') {
-  environment = new paypal.core.LiveEnvironment(clientId, clientSecret);
-} else {
-  environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
-}
+const environment =
+  process.env.PAYPAL_MODE === 'production'
+    ? new paypal.core.LiveEnvironment(clientId, clientSecret)
+    : new paypal.core.SandboxEnvironment(clientId, clientSecret);
 
 const client = new paypal.core.PayPalHttpClient(environment);
 
@@ -79,7 +75,7 @@ export async function createPayPalOrder(
  */
 export async function capturePayPalOrder(orderId: string) {
   const request = new paypal.orders.OrdersCaptureRequest(orderId);
-  request.requestBody({});
+  request.requestBody({} as Parameters<typeof request.requestBody>[0]);
 
   try {
     const response = await client.execute(request);

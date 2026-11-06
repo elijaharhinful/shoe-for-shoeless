@@ -1,10 +1,10 @@
 // API Route: Get Campaigns and Statistics
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Campaign from '@/models/Campaign';
 import Donation from '@/models/Donation';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     await connectDB();
 

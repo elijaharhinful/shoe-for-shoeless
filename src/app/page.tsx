@@ -1,19 +1,35 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import Mission from '@/components/Mission';
-import Impact from '@/components/Impact';
-import DonationCards from '@/components/DonationCards';
+import MomoBand from '@/components/sections/MomoBand';
+import Problem from '@/components/sections/Problem';
+import BigIdea from '@/components/sections/BigIdea';
+import Marquee from '@/components/sections/Marquee';
+import Impact from '@/components/sections/Impact';
+import Film from '@/components/sections/Film';
+import Inspiration from '@/components/sections/Inspiration';
+import Founder from '@/components/sections/Founder';
+import Gallery from '@/components/sections/Gallery';
+import GetInvolved from '@/components/sections/GetInvolved';
 import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <>
       <Header />
-      <Hero />
-      <Mission />
-      <Impact />
-      <DonationCards />
+      <main>
+        <Hero />
+        <MomoBand />
+        <Problem />
+        <BigIdea />
+        <Marquee />
+        <Impact />
+        <Film />
+        <Inspiration />
+        <Founder />
+        <Gallery />
+        <GetInvolved />
+      </main>
       <Footer />
-    </div>
+    </>
   );
 }

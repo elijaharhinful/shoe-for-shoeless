@@ -1,129 +1,110 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { Heart, Menu, X } from 'lucide-react';
+import { nav, site } from '@/content/site';
+import { cx } from './ui';
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [solid, setSolid] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setSolid(window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
+  const light = !solid && !open; // white-on-video state
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white shadow-md py-3'
-          : 'bg-transparent py-5'
-      }`}
+      className={cx(
+        'fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300',
+        light ? 'bg-transparent' : 'bg-blush-50/95 shadow-[0_1px_0] shadow-maroon-700/10 backdrop-blur',
+      )}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group">
-            <div className={`text-2xl md:text-3xl font-bold font-display transition-colors ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
-              <span className="text-primary-500">SHOE</span>
-              <span className={isScrolled ? 'text-secondary-500' : 'text-white'}>FOR</span>
-              <span className="text-primary-500">SHOELESS</span>
-            </div>
-          </Link>
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
+        <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
+          <Image
+            src={light ? '/brand/logo-white.png' : '/brand/logo-maroon.png'}
+            alt={site.name}
+            width={446}
+            height={132}
+            priority
+            className="h-11 w-auto"
+          />
+        </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {['Who We Are', 'Our Impact', 'Ways to Give', 'Stories'].map((item) => (
-              <Link
-                key={item}
-                href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                className={`text-sm font-semibold uppercase tracking-wide transition-colors ${
-                  isScrolled
-                    ? 'text-gray-600 hover:text-primary-500'
-                    : 'text-white/90 hover:text-white'
-                }`}
-              >
-                {item}
-              </Link>
+        <nav aria-label="Main" className="hidden lg:block">
+          <ul className="flex items-center gap-8">
+            {nav.map((item) => (
+              <li key={item.href}>
+                <a
+                  href={item.href}
+                  className={cx(
+                    'font-display text-[0.95rem] font-semibold transition-colors',
+                    light ? 'text-white/90 hover:text-gold-500' : 'text-maroon-800 hover:text-flame-600',
+                  )}
+                >
+                  {item.label}
+                </a>
+              </li>
             ))}
-          </nav>
+          </ul>
+        </nav>
 
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <button className={`px-6 py-2.5 rounded-full font-semibold transition-all border-2 ${
-                  isScrolled
-                    ? 'text-primary-500 border-primary-500 hover:bg-primary-50'
-                    : 'text-white border-white/30 hover:bg-white/10'
-                }`}>
-              Get Involved
-            </button>
-            <button className="px-6 py-2.5 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-              Donate
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`md:hidden p-2 transition-colors ${isScrolled ? 'text-gray-900' : 'text-white'}`}
-            aria-label="Toggle menu"
+        <div className="flex items-center gap-3">
+          <a
+            href="#donate"
+            className="inline-flex items-center gap-2 rounded-full bg-flame-500 px-5 py-2.5 font-display text-sm font-bold text-white transition-colors hover:bg-flame-600 sm:px-6 sm:py-3"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {isMobileMenuOpen ? (
-                <path d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
+            <Heart className="size-4 fill-current" aria-hidden />
+            Donate
+          </a>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            className={cx('rounded-full p-2 lg:hidden', light ? 'text-white' : 'text-maroon-800')}
+          >
+            {open ? <X className="size-7" /> : <Menu className="size-7" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-gray-100 shadow-xl overflow-hidden"
-          >
-            <nav className="container mx-auto px-4 py-6 space-y-4">
-              {['Who We Are', 'Our Impact', 'Ways to Give', 'Stories'].map((item) => (
-                <Link
-                  key={item}
-                  href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="block text-gray-700 hover:text-primary-500 font-medium text-lg"
-                  onClick={() => setIsMobileMenuOpen(false)}
+      {open && (
+        <nav id="mobile-nav" aria-label="Mobile" className="h-[calc(100dvh-5rem)] bg-blush-50 px-5 pb-10 lg:hidden">
+          <ul className="flex flex-col border-t border-maroon-700/10">
+            {nav.map((item) => (
+              <li key={item.href} className="border-b border-maroon-700/10">
+                <a
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="block py-5 font-display text-2xl font-bold text-maroon-800"
                 >
-                  {item}
-                </Link>
-              ))}
-              <div className="pt-6 space-y-3 border-t border-gray-100 mt-4">
-                <button className="w-full px-6 py-3 text-primary-500 border-2 border-primary-500 rounded-full font-semibold hover:bg-primary-50">
-                  Get Involved
-                </button>
-                <button className="w-full px-6 py-3 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 shadow-lg">
-                  Donate
-                </button>
-              </div>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-8 text-ink-muted">
+            Mobile Money: <strong className="text-maroon-800">{site.contact.momo.number}</strong> ({site.contact.momo.name})
+          </p>
+        </nav>
+      )}
     </header>
   );
 }

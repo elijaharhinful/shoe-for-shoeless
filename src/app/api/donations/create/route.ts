@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const {
       amount,
-      currency = 'USD',
+      currency = 'GHS',
       paymentMethod,
       donorName,
       donorEmail,
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     if (!validatePaymentAmount(amount)) {
       return NextResponse.json(
-        { error: 'Invalid amount. Must be between $1 and $1,000,000' },
+        { error: 'Invalid amount. Must be between 1 and 1,000,000' },
         { status: 400 }
       );
     }
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Initialize payment based on provider
-    let paymentData: {
+    const paymentData: {
       paymentUrl?: string;
       clientSecret?: string;
       orderId?: string;
@@ -79,7 +79,8 @@ export async function POST(request: NextRequest) {
             donorEmail,
             amount,
             reference,
-            { donationId: donation._id.toString(), campaignType }
+            { donationId: donation._id.toString(), campaignType, donorName },
+            currency.toUpperCase()
           );
           paymentData.paymentUrl = paystackResponse.data.authorization_url;
           break;

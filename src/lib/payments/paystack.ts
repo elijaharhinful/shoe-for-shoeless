@@ -1,5 +1,6 @@
 // Paystack Payment Handler
 import axios from 'axios';
+import { createHmac, timingSafeEqual } from 'node:crypto';
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY!;
 const PAYSTACK_BASE_URL = 'https://api.paystack.co';
@@ -38,17 +39,23 @@ export async function initializePaystackPayment(
   email: string,
   amount: number,
   reference: string,
-  metadata?: Record<string, unknown>
+  metadata?: Record<string, unknown>,
+  currency: string = 'GHS'
 ): Promise<PaystackInitializeResponse> {
   try {
     const response = await axios.post(
       `${PAYSTACK_BASE_URL}/transaction/initialize`,
       {
         email,
-        amount: amount * 100, // Paystack expects amount in kobo (smallest currency unit)
+        // Paystack expects the smallest currency unit (pesewas for GHS). Round to avoid float drift.
+        amount: Math.round(amount * 100),
+        currency,
         reference,
         metadata,
-        callback_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/donations/verify?reference=${reference}`,
+        // Card + Mobile Money cover almost every Ghanaian donor.
+        channels: ['card', 'mobile_money', 'bank_transfer'],
+        // Donor lands on a real page that verifies the payment server-side.
+        callback_url: `${process.env.NEXT_PUBLIC_BASE_URL}/thank-you?reference=${reference}`,
       },
       {
         headers: {
@@ -92,11 +99,9 @@ export async function verifyPaystackPayment(
  * Verify Paystack webhook signature
  */
 export function verifyPaystackWebhook(signature: string, body: string): boolean {
-  const crypto = require('crypto');
-  const hash = crypto
-    .createHmac('sha512', PAYSTACK_SECRET_KEY)
-    .update(JSON.stringify(body))
-    .digest('hex');
-  
-  return hash === signature;
+  // HMAC the raw request body exactly as received (stringifying it again adds quotes and never matches).
+  const hash = createHmac('sha512', PAYSTACK_SECRET_KEY).update(body).digest('hex');
+  const a = Buffer.from(hash, 'utf8');
+  const b = Buffer.from(signature, 'utf8');
+  return a.length === b.length && timingSafeEqual(a, b);
 }

@@ -36,7 +36,11 @@ export async function POST(request: NextRequest) {
       const reference = event.data.reference;
       const donation = await Donation.findOne({ transactionReference: reference });
 
-      if (donation) {
+      // Only confirm when Paystack charged the amount we recorded (in pesewas).
+      const amountMatches =
+        donation && event.data.amount === Math.round(donation.amount * 100);
+
+      if (donation && amountMatches) {
         donation.paymentStatus = 'completed';
         donation.paymentMetadata = {
           ...donation.paymentMetadata,

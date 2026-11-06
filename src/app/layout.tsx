@@ -1,40 +1,54 @@
-import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
-import "./globals.css";
+import type { Metadata, Viewport } from 'next';
+import { Montserrat, Plus_Jakarta_Sans } from 'next/font/google';
+import { site } from '@/content/site';
+import { motionBootScript } from '@/lib/motion';
+import './globals.css';
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+// Montserrat matches the heavy geometric wordmark in the logo.
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['600', '700', '800', '900'],
+  variable: '--font-montserrat',
+  display: 'swap',
 });
 
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-jakarta',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "Shoe for Shoeless - Walking Toward a Brighter Future",
-  description: "Empowering communities through education and footwear. Every pair of shoes we provide opens doors to education, health, and hope for children in need.",
-  keywords: ["charity", "shoes", "education", "donation", "nonprofit", "children", "africa", "community"],
-  openGraph: {
-    title: "Shoe for Shoeless - Walking Toward a Brighter Future",
-    description: "Empowering communities through education and footwear.",
-    type: "website",
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${site.name} | Durable shoes for every child in Ghana`,
+    template: `%s | ${site.name}`,
   },
+  description: site.tagline,
+  openGraph: {
+    type: 'website',
+    url: site.url,
+    siteName: site.name,
+    title: site.name,
+    description: site.tagline,
+    images: [{ url: '/images/hero-poster.jpg', width: 1920, height: 1080, alt: 'Children celebrating their new shoes in class' }],
+  },
+  twitter: { card: 'summary_large_image' },
+  icons: { icon: '/brand/mark-maroon.png', apple: '/brand/mark-maroon.png' },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: '#7a1332',
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body
-        className={`${inter.variable} ${outfit.variable} font-sans antialiased`}
-      >
-        {children}
-      </body>
+    // The boot script sets data-motion on <html> before hydration, hence suppressHydrationWarning.
+    <html lang="en" className={`${montserrat.variable} ${jakarta.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: motionBootScript }} />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }
