@@ -90,8 +90,13 @@ export async function verifyPaystackPayment(
 
     return response.data;
   } catch (error) {
-    console.error('Paystack verification error:', error);
-    throw new Error('Failed to verify Paystack payment');
+    // Surface Paystack's own reason (e.g. 400 "Transaction reference not found.") instead of
+    // the whole axios error. Callers decide whether to retry.
+    if (axios.isAxiosError(error) && error.response) {
+      const message = (error.response.data as { message?: string } | undefined)?.message ?? error.message;
+      throw new Error(`Paystack verify ${error.response.status}: ${message}`);
+    }
+    throw new Error(`Paystack verify failed: ${error instanceof Error ? error.message : String(error)}`);
   }
 }
 

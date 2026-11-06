@@ -15,7 +15,9 @@ async function outcomeFor(reference?: string): Promise<DonationOutcome> {
   try {
     return await confirmPaystackDonation(reference);
   } catch (err) {
-    console.error('Thank-you verification failed:', err);
+    // Usually transient (Paystack not ready yet, network). The page shows "pending" and
+    // PendingRefresh re-checks; the webhook also confirms independently.
+    console.warn(`Thank-you check for ${reference} not settled:`, err instanceof Error ? err.message : err);
     return { status: 'pending' };
   }
 }
