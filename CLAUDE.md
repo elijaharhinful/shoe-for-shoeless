@@ -36,7 +36,8 @@ Own brand system derived from the logo and campaign artwork. Layout references: 
 - Type: Montserrat 800-900 display (matches the wordmark) + Plus Jakarta Sans body. `text-hero` and `text-section` are the display sizes; hero is ~6x body.
 - Signature detail: the `toe-trail` utility (the logo's five toe-print dots) marks every section eyebrow. Keep it consistent.
 - Radius: `--radius-card` (1.75rem) for cards and media; buttons are full pills.
-- Motion: CSS-only `reveal` utility (scroll-driven), disabled for reduced motion. Hero video hides under reduced motion; the poster stays.
+- Motion: inline head script (`src/lib/motion.ts`) sets `html[data-motion]` and flags `.reveal` / `.reveal-media` with `[data-inview]`; all animation is CSS in `globals.css`. Variants: `.reveal` (+ `from-left`, `from-right`, `pop`), `.reveal-media` (photo wipe), `RiseText` (word-rise headlines), `.odo-col` (rolling counters), `.bar-fill`, toe-trail walk. Stagger with `stagger(i)` from `ui.tsx`. Hero uses `.enter` (CSS on load, never waits for JS). No JS or reduced motion: nothing hidden. Hero video hides under reduced motion; the poster stays.
+- Deploy: Vercel project `shoe-for-shoeless` auto-deploys `main`. vercel.app URLs are behind Vercel Authentication; the custom domain is public.
 - Light theme only, by decision: both references and all brand material are light. Revisit only if asked.
 - No generic AI-default UI: no indigo/violet gradients, glassmorphism, emoji icons, lorem ipsum, invented stats, testimonials or partner logos. Real copy from `site.ts` or ask.
 - Photos: real program photos only. Many arrived as Instagram screenshots; crop out app chrome before use. Don't name people in alt text unless you're sure who they are.
