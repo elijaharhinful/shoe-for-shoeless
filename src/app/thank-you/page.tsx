@@ -5,6 +5,7 @@ import { CheckCircle2, Clock, XCircle } from 'lucide-react';
 import { confirmPaystackDonation, type DonationOutcome } from '@/lib/donations';
 import { site } from '@/content/site';
 import { ButtonLink } from '@/components/ui';
+import PendingRefresh from './PendingRefresh';
 
 export const metadata: Metadata = { title: 'Thank you', robots: { index: false } };
 export const dynamic = 'force-dynamic';
@@ -69,6 +70,7 @@ export default async function ThankYouPage({
         <div className="mt-14 flex justify-center">{content.icon}</div>
         <h1 className="mt-6 font-display text-5xl font-black tracking-[-0.02em] sm:text-6xl">{content.title}</h1>
         <p className="mx-auto mt-6 max-w-md text-lg leading-relaxed text-white/80">{content.body}</p>
+        {outcome.status === 'pending' && reference && <PendingRefresh />}
 
         {outcome.status !== 'completed' && (
           <p className="mt-6 text-white/70">
