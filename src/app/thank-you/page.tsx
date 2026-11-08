@@ -10,6 +10,12 @@ import PendingRefresh from './PendingRefresh';
 export const metadata: Metadata = { title: 'Thank you', robots: { index: false } };
 export const dynamic = 'force-dynamic';
 
+/** "$25 (GHS 292.50)" when the donor gave in dollars, else "GHS 200". */
+function giftLabel(o: Extract<DonationOutcome, { status: 'completed' }>) {
+  const charged = `${o.currency} ${o.amount.toLocaleString('en-US', { maximumFractionDigits: 2 })}`;
+  return o.amountUsd ? `$${o.amountUsd.toLocaleString('en-US')} (${charged})` : charged;
+}
+
 async function outcomeFor(reference?: string): Promise<DonationOutcome> {
   if (!reference) return { status: 'not_found' };
   try {
@@ -40,7 +46,7 @@ export default async function ThankYouPage({
           : 'Thank you.',
       body:
         outcome.status === 'completed'
-          ? `Your gift of ${outcome.currency} ${outcome.amount.toLocaleString()} is confirmed. A receipt is on its way to your inbox. You just helped a child walk to school in shoes.`
+          ? `Your gift of ${giftLabel(outcome)} is confirmed. A receipt is on its way to your inbox. You just helped a child walk to school in shoes.`
           : '',
     },
     pending: {
@@ -61,9 +67,9 @@ export default async function ThankYouPage({
   }[outcome.status];
 
   return (
-    <main className="relative isolate grid min-h-[100svh] place-items-center overflow-hidden bg-maroon-950 px-5 py-20 text-white">
+    <main className="relative isolate grid min-h-[100svh] place-items-center overflow-hidden bg-plum-950 px-5 py-20 text-white">
       <Image src="/images/hero-poster.jpg" alt="" fill sizes="100vw" className="-z-20 object-cover opacity-30" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-maroon-950/70 to-maroon-950" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-plum-950/70 to-plum-950" />
 
       <div className="w-full max-w-xl text-center">
         <Link href="/" aria-label={`${site.name} home`} className="inline-block">

@@ -5,7 +5,7 @@ import { Container } from './ui';
 
 export default function Footer() {
   return (
-    <footer className="bg-maroon-950 pt-20 text-white/75">
+    <footer className="bg-sea-950 pt-20 text-white/75">
       <Container>
         <div className="grid gap-12 pb-16 md:grid-cols-12">
           <div className="md:col-span-5">
@@ -73,7 +73,12 @@ export default function Footer() {
           <p>
             © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <p>{site.domain}</p>
+          <p>
+            Founded by{' '}
+            <a href={site.social.founderSite} target="_blank" rel="noopener noreferrer" className="text-white/75 underline-offset-4 hover:text-white hover:underline">
+              Edna Frimpong, The ShoemakerGurl
+            </a>
+          </p>
         </div>
       </Container>
     </footer>

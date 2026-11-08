@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { communities, pairGoal, stats } from '@/content/site';
+import { communities, project, stats } from '@/content/site';
 import { ButtonLink, Container, Eyebrow, RiseText, stagger } from '../ui';
 
 const DIGITS = Array.from({ length: 20 }, (_, i) => i % 10);
@@ -17,7 +17,7 @@ function Tiles({ value, prefix }: { value: number; prefix: string }) {
         return (
           <span
             key={i}
-            className="relative h-(--tile-h) w-[3.25rem] overflow-hidden rounded-lg bg-maroon-950/60 font-display text-5xl font-black text-gold-500 shadow-[inset_0_-3px_0] shadow-black/30 sm:w-[4.25rem] sm:text-6xl"
+            className="relative h-(--tile-h) w-[3.25rem] overflow-hidden rounded-lg bg-leaf-900/80 font-display text-5xl font-black text-gold-500 shadow-[inset_0_-3px_0] shadow-black/30 sm:w-[4.25rem] sm:text-6xl"
           >
             {digit === null ? (
               <span className="grid h-full place-items-center">{c}</span>
@@ -41,11 +41,12 @@ function Tiles({ value, prefix }: { value: number; prefix: string }) {
 
 export default function Impact() {
   const delivered = stats[0].value;
-  const pct = Math.min(100, Math.round((delivered / pairGoal) * 100));
-  const firstPhase = communities.reduce((n, c) => n + c.pairs, 0);
+  const milestone = project.nextMilestone;
+  const pct = Math.min(100, Math.round((delivered / milestone) * 100));
+  const listed = communities.reduce((n, c) => n + c.pairs, 0);
 
   return (
-    <section id="impact" className="bg-maroon-800 py-24 text-white sm:py-32">
+    <section id="impact" className="bg-leaf-800 py-24 text-white sm:py-32">
       <Container>
         <div className="reveal flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
@@ -75,34 +76,34 @@ export default function Impact() {
           ))}
         </dl>
 
-        <div className="reveal mt-16 rounded-[var(--radius-card)] bg-maroon-900/70 p-6 sm:p-10">
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <div className="reveal mt-16 rounded-[var(--radius-card)] bg-leaf-900/70 p-6 sm:p-10">
+          <p className="font-display text-sm font-bold uppercase tracking-[0.18em] text-gold-500">{project.name}</p>
+          <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2">
             <p className="font-display text-lg font-bold">
-              {delivered} of {pairGoal.toLocaleString()} pairs
+              {delivered} of {milestone.toLocaleString('en-US')} pairs, our next milestone
             </p>
-            <p className="text-white/70">Our next goal: {pairGoal.toLocaleString()} children in shoes</p>
+            <p className="text-white/70">
+              On the way to {project.goal.toLocaleString('en-US')} children in shoes
+            </p>
           </div>
           <div
-            className="mt-4 h-4 overflow-hidden rounded-full bg-maroon-950"
+            className="mt-4 h-4 overflow-hidden rounded-full bg-black/25"
             role="progressbar"
             aria-valuemin={0}
-            aria-valuemax={pairGoal}
+            aria-valuemax={milestone}
             aria-valuenow={delivered}
-            aria-label="Progress toward pair goal"
+            aria-label="Progress toward the next milestone"
           >
-            <div className="bar-fill h-full rounded-full bg-gradient-to-r from-flame-500 to-gold-500" style={{ width: `${pct}%` }} />
+            <div className="bar-fill h-full rounded-full bg-gradient-to-r from-leaf-400 to-gold-500" style={{ width: `${pct}%` }} />
           </div>
 
           <h3 className="mt-10 font-display text-sm font-bold uppercase tracking-[0.18em] text-gold-500">
-            First phase, 2025: {firstPhase} pairs
+            Distribution so far: {listed} pairs in {communities.length} communities
           </h3>
           <ul className="mt-5 grid gap-x-10 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
             {communities.map((c, i) => (
-              <li key={c.name} style={stagger(i + 4)} className="reveal flex items-baseline justify-between gap-4 border-b border-white/10 pb-3">
-                <span>
-                  <span className="font-semibold">{c.name}</span>{' '}
-                  <span className="text-sm text-white/60">{c.region}</span>
-                </span>
+              <li key={c.name} style={stagger((i % 6) + 4)} className="reveal flex items-baseline justify-between gap-4 border-b border-white/15 pb-3">
+                <span className="font-semibold">{c.name}</span>
                 <span className="font-display font-extrabold text-gold-500">{c.pairs}</span>
               </li>
             ))}

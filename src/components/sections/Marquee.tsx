@@ -1,8 +1,9 @@
-import { bigIdea, stats } from '@/content/site';
+import { bigIdea, project, stats } from '@/content/site';
 
 /** Gold ticker between the Big Idea and Impact bands. Copy comes from site.ts only. */
 export default function Marquee() {
   const items = [
+    project.name,
     ...bigIdea.steps.map((s) => s.title),
     ...stats.slice(0, 2).map((s) => `${s.prefix}${s.value} ${s.label}`),
   ];
@@ -19,7 +20,7 @@ export default function Marquee() {
   );
 
   return (
-    <section aria-label="What we do" className="marquee overflow-hidden bg-gold-500 py-6 text-maroon-900 sm:py-8">
+    <section aria-label="What we do" className="marquee overflow-hidden bg-gold-500 py-6 text-plum-800 sm:py-8">
       <div className="marquee-track flex w-max">
         {row(false)}
         {row(true)}

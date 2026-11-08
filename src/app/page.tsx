@@ -5,6 +5,7 @@ import Problem from '@/components/sections/Problem';
 import BigIdea from '@/components/sections/BigIdea';
 import Marquee from '@/components/sections/Marquee';
 import Impact from '@/components/sections/Impact';
+import Sdgs from '@/components/sections/Sdgs';
 import Film from '@/components/sections/Film';
 import Inspiration from '@/components/sections/Inspiration';
 import Founder from '@/components/sections/Founder';
@@ -23,6 +24,7 @@ export default function Home() {
         <BigIdea />
         <Marquee />
         <Impact />
+        <Sdgs />
         <Film />
         <Inspiration />
         <Founder />

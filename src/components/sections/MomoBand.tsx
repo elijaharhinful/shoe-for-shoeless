@@ -2,10 +2,10 @@ import { Smartphone } from 'lucide-react';
 import { site } from '@/content/site';
 import { Container } from '../ui';
 
-/** Thin flame band under the hero: the most common way Ghanaian supporters give. */
+/** Thin plum band under the hero: the most common way Ghanaian supporters give. */
 export default function MomoBand() {
   return (
-    <section aria-label="Give by Mobile Money" className="bg-flame-500 text-white">
+    <section aria-label="Give by Mobile Money" className="bg-plum-700 text-white">
       <Container className="flex flex-col items-center justify-between gap-3 py-5 text-center sm:flex-row sm:text-left">
         <p className="font-display text-lg font-bold sm:text-xl">
           Every pair is handmade in Ghana and fitted by hand.

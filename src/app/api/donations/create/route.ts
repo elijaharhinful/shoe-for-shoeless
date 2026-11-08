@@ -6,6 +6,7 @@ import { generateTransactionReference, validatePaymentAmount, resolvePaymentProv
 import { initializePaystackPayment } from '@/lib/payments/paystack';
 import { createStripePaymentIntent } from '@/lib/payments/stripe';
 import { createPayPalOrder } from '@/lib/payments/paypal';
+import { getUsdToGhsRate, usdToCedis } from '@/lib/fx';
 import type { PaymentMethod } from '@/lib/payments';
 
 export async function POST(request: NextRequest) {
@@ -45,13 +46,26 @@ export async function POST(request: NextRequest) {
     // Resolve payment provider
     const { provider } = resolvePaymentProvider(paymentMethod as PaymentMethod);
 
-    // Create donation record
+    // Donors give in dollars; Paystack charges cedis (Mobile Money is GHS-only). Convert here on
+    // the server at the live rate so the client never decides the charged amount.
+    let chargeAmount = Number(amount);
+    let chargeCurrency = String(currency).toUpperCase();
+    let usd: { amountUsd: number; exchangeRate: number } | undefined;
+    if (provider === 'paystack' && chargeCurrency === 'USD') {
+      const { rate } = await getUsdToGhsRate();
+      usd = { amountUsd: chargeAmount, exchangeRate: rate };
+      chargeAmount = usdToCedis(chargeAmount, rate);
+      chargeCurrency = 'GHS';
+    }
+
+    // Create donation record (amount/currency = what the provider charges)
     const donation = await Donation.create({
       donorName,
       donorEmail,
       donorPhone,
-      amount,
-      currency: currency.toUpperCase(),
+      amount: chargeAmount,
+      currency: chargeCurrency,
+      ...usd,
       paymentMethod,
       paymentStatus: 'pending',
       transactionReference: reference,
@@ -77,10 +91,10 @@ export async function POST(request: NextRequest) {
           }
           const paystackResponse = await initializePaystackPayment(
             donorEmail,
-            amount,
+            chargeAmount,
             reference,
-            { donationId: donation._id.toString(), campaignType, donorName },
-            currency.toUpperCase()
+            { donationId: donation._id.toString(), campaignType, donorName, ...usd },
+            chargeCurrency
           );
           paymentData.paymentUrl = paystackResponse.data.authorization_url;
           break;

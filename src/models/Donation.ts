@@ -9,6 +9,9 @@ export interface IDonation extends Document {
   // Payment Details
   amount: number;
   currency: string;
+  // Donor-facing amount when they chose dollars; `amount` is what Paystack charged (GHS).
+  amountUsd?: number;
+  exchangeRate?: number;
   paymentMethod: 'paystack' | 'stripe' | 'paypal' | 'card' | 'google_pay';
   paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded';
   transactionReference: string;
@@ -50,6 +53,14 @@ const DonationSchema: Schema = new Schema(
       required: true,
       default: 'USD',
       uppercase: true,
+    },
+    amountUsd: {
+      type: Number,
+      min: 0,
+    },
+    exchangeRate: {
+      type: Number,
+      min: 0,
     },
     paymentMethod: {
       type: String,

@@ -15,7 +15,7 @@ export default function BigIdea() {
       />
       <Container className="relative">
         <div className="reveal max-w-5xl">
-          <Eyebrow className="text-maroon-900">{bigIdea.eyebrow}</Eyebrow>
+          <Eyebrow className="text-white/90">{bigIdea.eyebrow}</Eyebrow>
           <h2 className="mt-5 text-section font-black tracking-[-0.025em]">
             <RiseText text={bigIdea.title} />
           </h2>
@@ -26,7 +26,7 @@ export default function BigIdea() {
           <ol className="space-y-10 lg:col-span-6">
             {bigIdea.steps.map((s, i) => (
               <li key={s.title} style={stagger(i)} className="reveal from-left grid grid-cols-[auto_1fr] gap-x-6">
-                <span className="font-display text-6xl font-black leading-none text-maroon-900/80">
+                <span className="font-display text-6xl font-black leading-none text-gold-300">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <div className="border-t-2 border-white/40 pt-4">
@@ -46,7 +46,7 @@ export default function BigIdea() {
           </ol>
 
           <div className="relative lg:col-span-6">
-            <div className="reveal-media relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] shadow-2xl shadow-maroon-950/30 lg:ml-10">
+            <div className="reveal-media relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] shadow-2xl shadow-plum-950/30 lg:ml-10">
               <Image
                 src="/images/shoemaker-workshop.jpg"
                 alt="A Ghanaian shoemaker stitching a sandal by hand in the workshop"

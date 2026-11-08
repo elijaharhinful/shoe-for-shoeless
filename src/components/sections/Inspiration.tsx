@@ -18,7 +18,7 @@ export default function Inspiration() {
         <div className="reveal from-right lg:col-span-7 lg:pl-8">
           <Eyebrow className="text-flame-600">Our inspiration</Eyebrow>
           <blockquote className="mt-6">
-            <p id="inspiration" className="font-display text-3xl font-extrabold leading-tight tracking-[-0.02em] text-maroon-700 sm:text-5xl">
+            <p id="inspiration" className="font-display text-3xl font-extrabold leading-tight tracking-[-0.02em] text-plum-700 sm:text-5xl">
               “{inspiration.verse}”
             </p>
             <footer className="mt-6 font-display text-lg font-bold text-flame-600">{inspiration.reference}</footer>

@@ -3,14 +3,14 @@ import type { ComponentProps, CSSProperties, ReactNode } from 'react';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
 
-type Tone = 'flame' | 'maroon' | 'light' | 'outline-light' | 'outline-maroon';
+type Tone = 'flame' | 'plum' | 'light' | 'outline-light' | 'outline-plum';
 
 const tones: Record<Tone, string> = {
   flame: 'bg-flame-500 text-white hover:bg-flame-600 shadow-[0_10px_30px_-10px] shadow-flame-600/70',
-  maroon: 'bg-maroon-700 text-white hover:bg-maroon-800',
-  light: 'bg-white text-maroon-800 hover:bg-blush-100',
-  'outline-light': 'border-2 border-white/70 text-white hover:bg-white hover:text-maroon-800',
-  'outline-maroon': 'border-2 border-maroon-700 text-maroon-700 hover:bg-maroon-700 hover:text-white',
+  plum: 'bg-plum-700 text-white hover:bg-plum-800',
+  light: 'bg-white text-plum-800 hover:bg-blush-100',
+  'outline-light': 'border-2 border-white/70 text-white hover:bg-white hover:text-plum-800',
+  'outline-plum': 'border-2 border-plum-700 text-plum-700 hover:bg-plum-700 hover:text-white',
 };
 
 const base =

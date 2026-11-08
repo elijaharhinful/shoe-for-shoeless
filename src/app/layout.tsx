@@ -34,11 +34,11 @@ export const metadata: Metadata = {
     images: [{ url: '/images/hero-poster.jpg', width: 1920, height: 1080, alt: 'Children celebrating their new shoes in class' }],
   },
   twitter: { card: 'summary_large_image' },
-  icons: { icon: '/brand/mark-maroon.png', apple: '/brand/mark-maroon.png' },
+  icons: { icon: '/brand/mark-plum.png', apple: '/brand/mark-plum.png' },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#7a1332',
+  themeColor: '#880958',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

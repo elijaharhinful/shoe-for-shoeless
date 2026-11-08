@@ -2,25 +2,41 @@
 
 /*
  * Shoe for the Shoeless design tokens.
- * Colors sampled from the brand artwork (logo wordmark, campaign flyers, sponsorship deck).
- * Use these theme keys in markup; do not hard-code hex values in components.
+ * Colors sampled from the campaign artwork on ednafrimpong.com/shoeless.html (orange, plum,
+ * green and blue panels with yellow accents). Maroon is Edna's personal brand, not this one.
+ * Each home section takes one of the four primaries. Use theme keys; no raw hex in components.
  */
 @theme {
-  /* Brand maroon: logo + wordmark */
-  --color-maroon-950: #2b0710;
-  --color-maroon-900: #4a0b1b;
-  --color-maroon-800: #5e0e22;
-  --color-maroon-700: #7a1332; /* primary brand */
-  --color-maroon-600: #93203f;
-  --color-maroon-100: #f3d9df;
+  /* Plum: campaign "Feet need love too" panel. Logo, headings on light, dark sections. */
+  --color-plum-950: #2a0219;
+  --color-plum-900: #45042b;
+  --color-plum-800: #63063f;
+  --color-plum-700: #880958; /* primary brand */
+  --color-plum-600: #a3146c;
+  --color-plum-100: #f7dceb;
 
-  /* Flame: campaign gradient (#FF3C40 -> #FF7E57). Primary action color. */
-  --color-flame-700: #c8231f;
-  --color-flame-600: #e8352d;
-  --color-flame-500: #ff4e45;
-  --color-flame-300: #ff7e57;
+  /* Flame: campaign burnt orange. Primary action color (Donate) and the Big Idea band. */
+  --color-flame-700: #9a2b00;
+  --color-flame-600: #ad3000;
+  --color-flame-500: #c23601;
+  --color-flame-300: #ff8a4c;
 
-  /* Gold: milestone numbers + embossed logo */
+  /* Leaf: campaign "Barefoot today" green. Impact counter band. */
+  --color-leaf-900: #013a28;
+  --color-leaf-800: #015239;
+  --color-leaf-700: #026a49;
+  --color-leaf-400: #3ccf3a;
+  --color-leaf-100: #dcf2e8;
+
+  /* Sea: campaign "Every step hurts" blue. Problem facts, Mobile Money band, footer. */
+  --color-sea-950: #061f33;
+  --color-sea-900: #0a3456;
+  --color-sea-800: #0c446c;
+  --color-sea-700: #0e5281;
+  --color-sea-500: #127b9c;
+  --color-sea-100: #dbeaf4;
+
+  /* Gold: accent for numbers and highlights on dark */
   --color-gold-500: #fac55d;
   --color-gold-300: #fcdc9a;
 
@@ -30,8 +46,8 @@
   --color-blush-50: #fef7f2;
 
   /* Text */
-  --color-ink: #26100f;
-  --color-ink-muted: #6e504b;
+  --color-ink: #22101a;
+  --color-ink-muted: #64505b;
 
   --font-display: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
   --font-body: var(--font-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;

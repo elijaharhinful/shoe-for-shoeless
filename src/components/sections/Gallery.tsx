@@ -19,7 +19,7 @@ export default function Gallery() {
       <Container>
         <div className="reveal max-w-3xl">
           <Eyebrow className="text-flame-600">From the field</Eyebrow>
-          <h2 id="gallery-title" className="mt-5 text-section font-black tracking-[-0.025em] text-maroon-700">
+          <h2 id="gallery-title" className="mt-5 text-section font-black tracking-[-0.025em] text-plum-700">
             <RiseText text="Meet the children we walk with." />
           </h2>
         </div>

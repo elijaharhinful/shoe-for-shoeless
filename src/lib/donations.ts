@@ -5,7 +5,7 @@ import Donation from '@/models/Donation';
 import { verifyPaystackPayment } from '@/lib/payments/paystack';
 
 export type DonationOutcome =
-  | { status: 'completed'; amount: number; currency: string; donorName?: string }
+  | { status: 'completed'; amount: number; currency: string; amountUsd?: number; donorName?: string }
   | { status: 'pending' }
   | { status: 'failed' }
   | { status: 'not_found' };
@@ -25,6 +25,7 @@ export async function confirmPaystackDonation(reference: string): Promise<Donati
       status: 'completed',
       amount: donation.amount,
       currency: donation.currency,
+      amountUsd: donation.amountUsd,
       donorName: donation.donorName,
     }) as const;
 

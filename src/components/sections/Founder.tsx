@@ -5,7 +5,7 @@ import { Container, Eyebrow, RiseText, stagger } from '../ui';
 
 export default function Founder() {
   return (
-    <section id="story" className="overflow-hidden bg-maroon-950 py-24 text-white sm:py-32">
+    <section id="story" className="overflow-hidden bg-plum-800 py-24 text-white sm:py-32">
       <Container className="grid items-center gap-14 lg:grid-cols-12">
         <div className="reveal lg:col-span-7">
           <Eyebrow className="text-gold-500">Our story</Eyebrow>

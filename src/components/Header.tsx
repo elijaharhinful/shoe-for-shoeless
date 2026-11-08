@@ -31,13 +31,13 @@ export default function Header() {
     <header
       className={cx(
         'fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300',
-        light ? 'bg-transparent' : 'bg-blush-50/95 shadow-[0_1px_0] shadow-maroon-700/10 backdrop-blur',
+        light ? 'bg-transparent' : 'bg-blush-50/95 shadow-[0_1px_0] shadow-plum-700/10 backdrop-blur',
       )}
     >
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
         <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
           <Image
-            src={light ? '/brand/logo-white.png' : '/brand/logo-maroon.png'}
+            src={light ? '/brand/logo-white.png' : '/brand/logo-plum.png'}
             alt={site.name}
             width={446}
             height={132}
@@ -54,7 +54,7 @@ export default function Header() {
                   href={item.href}
                   className={cx(
                     'font-display text-[0.95rem] font-semibold transition-colors',
-                    light ? 'text-white/90 hover:text-gold-500' : 'text-maroon-800 hover:text-flame-600',
+                    light ? 'text-white/90 hover:text-gold-500' : 'text-plum-800 hover:text-flame-600',
                   )}
                 >
                   {item.label}
@@ -78,7 +78,7 @@ export default function Header() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? 'Close menu' : 'Open menu'}
-            className={cx('rounded-full p-2 lg:hidden', light ? 'text-white' : 'text-maroon-800')}
+            className={cx('rounded-full p-2 lg:hidden', light ? 'text-white' : 'text-plum-800')}
           >
             {open ? <X className="size-7" /> : <Menu className="size-7" />}
           </button>
@@ -87,13 +87,13 @@ export default function Header() {
 
       {open && (
         <nav id="mobile-nav" aria-label="Mobile" className="h-[calc(100dvh-5rem)] bg-blush-50 px-5 pb-10 lg:hidden">
-          <ul className="flex flex-col border-t border-maroon-700/10">
+          <ul className="flex flex-col border-t border-plum-700/10">
             {nav.map((item) => (
-              <li key={item.href} className="border-b border-maroon-700/10">
+              <li key={item.href} className="border-b border-plum-700/10">
                 <a
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block py-5 font-display text-2xl font-bold text-maroon-800"
+                  className="block py-5 font-display text-2xl font-bold text-plum-800"
                 >
                   {item.label}
                 </a>
@@ -101,7 +101,7 @@ export default function Header() {
             ))}
           </ul>
           <p className="mt-8 text-ink-muted">
-            Mobile Money: <strong className="text-maroon-800">{site.contact.momo.number}</strong> ({site.contact.momo.name})
+            Mobile Money: <strong className="text-plum-800">{site.contact.momo.number}</strong> ({site.contact.momo.name})
           </p>
         </nav>
       )}
